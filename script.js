@@ -53,7 +53,7 @@ function updateSavedColumns() {
 
 // Filter arrays to remove empty items
 function filterArray(array) {
-  const filteredArray = array.filter(item => item !== null);
+  const filteredArray = array.filter(item => (item !== null && item !== ''));
 
   return filteredArray;
 }
