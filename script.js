@@ -111,11 +111,12 @@ function updateDOM() {
 
 // Update Item - Delete
 function updateItem(id, column) {
+  console.log(`Updating element ${id} -> colum ${column}`);
   const selectedArray = listArrays[column];
   const selectedColumnEl = columnList[column].children;
   if (!dragging) {
     if (!selectedColumnEl[id].textContent) {
-      delete selectedArray[id];
+      selectedArray.splice(id, 1);
     } else {
       selectedArray[id] = selectedColumnEl[id].textContent;
     }
