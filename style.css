@@ -146,6 +146,29 @@ ul {
   color: black;
 }
 
+.drag-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drag-item-span {
+  flex-grow: 1;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.delete-btn:hover {
+  color: #ff0000;
+}
+
 /* Add Button Group */
 .add-btn-group {
   display: flex;

@@ -69,13 +69,35 @@ function createItemEl(columnEl, column, item, index) {
   // List Item
   const listEl = document.createElement("li");
   listEl.classList.add("drag-item");
-  listEl.textContent = item;
+
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("drag-item-wrapper");
+
+  const content = document.createElement("span");
+  content.textContent = item;
+  content.contentEditable = true;
+  content.setAttribute("onfocusout", `updateItem(${index}, ${column})`);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+  deleteBtn.classList.add("delete-btn");
+  deleteBtn.setAttribute("onclick", `deleteItem(${index}, ${column})`);
+
+  wrapper.appendChild(content);
+  wrapper.appendChild(deleteBtn);
+  listEl.appendChild(wrapper);
+
   listEl.draggable = true;
   listEl.setAttribute("ondragstart", "drag(event)");
-  listEl.contentEditable = true;
   listEl.id = index;
-  listEl.setAttribute("onfocusout", `updateItem(${index}, ${column})`);
+
   columnEl.appendChild(listEl);
+}
+
+function deleteItem(id, column) {
+  const selectedArray = listArrays[column];
+  selectedArray.splice(id, 1);
+  updateDOM();
 }
 
 // Update Columns in DOM - Reset HTML, Filter Array, Update localStorage
