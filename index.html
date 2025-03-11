@@ -8,113 +8,181 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-  <h1 class="main-title">Kanban Board</h1>
-  <div class="drag-container">
-    <ul class="drag-list">
-      <!-- Backlog Column -->
-      <li class="drag-column backlog-column">
-        <span class="header">
-          <h1>Backlog</h1>
-        </span>
-        <!-- Backlog content -->
-        <div id="backlog-content" class="custom-scroll">
-          <ul class="drag-item-list" id="backlog-list" ondrop="drop(event)" ondragover="allowDrop(event)"
-            ondragenter="dragEnter(0)"></ul>
-        </div>
-        <!-- Add Button group -->
-        <div class="add-btn-group">
-          <div class="add-btn" onclick="showInputBox(0)">
-            <span class="plus-sign">+</span>
-            <span>Add Item</span>
+  <!-- Authentication Container -->
+  <div class="auth-container" id="auth-container">
+    <div class="auth-header">
+      <h1>Kanban Board</h1>
+      <div class="tabs">
+        <button class="tab active" id="login-tab">Login</button>
+        <button class="tab" id="register-tab">Register</button>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <form id="login-form" class="auth-form">
+      <h2>Login to Your Account</h2>
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required placeholder="Enter your password">
+      </div>
+      <button type="submit" class="auth-button">Login</button>
+    </form>
+
+    <!-- Register Form (hidden by default) -->
+    <form id="register-form" class="auth-form" style="display: none;">
+      <h2>Create an Account</h2>
+      <div class="form-group">
+        <label for="register-name">Name</label>
+        <input type="text" id="register-name" required placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" required placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" required placeholder="Enter your password (min 6 characters)">
+      </div>
+      <button type="submit" class="auth-button">Register</button>
+    </form>
+  </div>
+
+  <!-- Kanban Board Container (hidden by default) -->
+  <div class="kanban-container" id="kanban-container" style="display: none;">
+    <header>
+      <h1>Kanban Board</h1>
+      <div class="user-info">
+        <span id="username-display">Welcome!</span>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+      </div>
+    </header>
+    <div class="drag-container">
+      <ul class="drag-list">
+        <!-- Backlog Column -->
+        <li class="drag-column backlog-column">
+          <span class="header">
+            <h1>Backlog</h1>
+          </span>
+          <!-- Backlog content -->
+          <div id="backlog-content" class="custom-scroll">
+            <ul class="drag-item-list" id="backlog-list" ondrop="drop(event)" ondragover="allowDrop(event)"
+              ondragenter="dragEnter(0)"></ul>
           </div>
-          <div class="add-btn solid" onclick="hideInputBox(0)">
-            <span>Save Item</span>
+          <!-- Add Button group -->
+          <div class="add-btn-group">
+            <div class="add-btn" onclick="showInputBox(0)">
+              <span class="plus-sign">+</span>
+              <span>Add Item</span>
+            </div>
+            <div class="add-btn solid" onclick="hideInputBox(0)">
+              <span>Save Item</span>
+            </div>
           </div>
-        </div>
-        <div class="add-container">
-          <div class="add-item" contenteditable="true"></div>
-        </div>
-      </li>
-      <!-- Progress Column -->
-      <li class="drag-column progress-column">
-        <span class="header">
-          <h1>Progress</h1>
-        </span>
-        <!-- Progress content -->
-        <div id="progress-content" class="custom-scroll">
-          <ul class="drag-item-list" id="progress-list" ondrop="drop(event)" ondragover="allowDrop(event)"
-            ondragenter="dragEnter(1)"></ul>
-        </div>
-        <!-- Add Button group -->
-        <div class="add-btn-group">
-          <div class="add-btn" onclick="showInputBox(1)">
-            <span class="plus-sign">+</span>
-            <span>Add Item</span>
+          <div class="add-container">
+            <div class="add-item" contenteditable="true"></div>
           </div>
-          <div class="add-btn solid" onclick="hideInputBox(1)">
-            <span>Save Item</span>
+        </li>
+        <!-- Progress Column -->
+        <li class="drag-column progress-column">
+          <span class="header">
+            <h1>Progress</h1>
+          </span>
+          <!-- Progress content -->
+          <div id="progress-content" class="custom-scroll">
+            <ul class="drag-item-list" id="progress-list" ondrop="drop(event)" ondragover="allowDrop(event)"
+              ondragenter="dragEnter(1)"></ul>
           </div>
-        </div>
-        <div class="add-container">
-          <div class="add-item" contenteditable="true"></div>
-        </div>
-      </li>
-      <!-- Complete Column -->
-      <li class="drag-column complete-column">
-        <span class="header">
-          <h1>Complete</h1>
-        </span>
-        <!-- Complete content -->
-        <div id="complete-content" class="custom-scroll">
-          <ul class="drag-item-list" id="complete-list" ondrop="drop(event)" ondragover="allowDrop(event)"
-            ondragenter="dragEnter(2)"></ul>
-        </div>
-        <!-- Add Button group -->
-        <div class="add-btn-group">
-          <div class="add-btn" onclick="showInputBox(2)">
-            <span class="plus-sign">+</span>
-            <span>Add Item</span>
+          <!-- Add Button group -->
+          <div class="add-btn-group">
+            <div class="add-btn" onclick="showInputBox(1)">
+              <span class="plus-sign">+</span>
+              <span>Add Item</span>
+            </div>
+            <div class="add-btn solid" onclick="hideInputBox(1)">
+              <span>Save Item</span>
+            </div>
           </div>
-          <div class="add-btn solid" onclick="hideInputBox(2)">
-            <span>Save Item</span>
+          <div class="add-container">
+            <div class="add-item" contenteditable="true"></div>
           </div>
-        </div>
-        <div class="add-container">
-          <div class="add-item" contenteditable="true"></div>
-        </div>
-      </li>
-      <!-- On hold Column -->
-      <li class="drag-column on-hold-column">
-        <span class="header">
-          <h1>On Hold</h1>
-        </span>
-        <!-- On Hold content -->
-        <div id="on-hold-content" class="custom-scroll">
-          <ul class="drag-item-list" id="on-hold-list" ondrop="drop(event)" ondragover="allowDrop(event)"
-            ondragenter="dragEnter(3)">
-          </ul>
-        </div>
-        <!-- Add Button group -->
-        <div class="add-btn-group">
-          <div class="add-btn" onclick="showInputBox(3)">
-            <span class="plus-sign">+</span>
-            <span>Add Item</span>
+        </li>
+        <!-- Complete Column -->
+        <li class="drag-column complete-column">
+          <span class="header">
+            <h1>Complete</h1>
+          </span>
+          <!-- Complete content -->
+          <div id="complete-content" class="custom-scroll">
+            <ul class="drag-item-list" id="complete-list" ondrop="drop(event)" ondragover="allowDrop(event)"
+              ondragenter="dragEnter(2)"></ul>
           </div>
-          <div class="add-btn solid" onclick="hideInputBox(3)">
-            <span>Save Item</span>
+          <!-- Add Button group -->
+          <div class="add-btn-group">
+            <div class="add-btn" onclick="showInputBox(2)">
+              <span class="plus-sign">+</span>
+              <span>Add Item</span>
+            </div>
+            <div class="add-btn solid" onclick="hideInputBox(2)">
+              <span>Save Item</span>
+            </div>
           </div>
-        </div>
-        <div class="add-container">
-          <div class="add-item" contenteditable="true"></div>
-        </div>
-      </li>
-    </ul>
+          <div class="add-container">
+            <div class="add-item" contenteditable="true"></div>
+          </div>
+        </li>
+        <!-- On hold Column -->
+        <li class="drag-column on-hold-column">
+          <span class="header">
+            <h1>On Hold</h1>
+          </span>
+          <!-- On Hold content -->
+          <div id="on-hold-content" class="custom-scroll">
+            <ul class="drag-item-list" id="on-hold-list" ondrop="drop(event)" ondragover="allowDrop(event)"
+              ondragenter="dragEnter(3)">
+            </ul>
+          </div>
+          <!-- Add Button group -->
+          <div class="add-btn-group">
+            <div class="add-btn" onclick="showInputBox(3)">
+              <span class="plus-sign">+</span>
+              <span>Add Item</span>
+            </div>
+            <div class="add-btn solid" onclick="hideInputBox(3)">
+              <span>Save Item</span>
+            </div>
+          </div>
+          <div class="add-container">
+            <div class="add-item" contenteditable="true"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
   <!-- Script -->
-  <script src="script.js"></script>
+  <script>
+    // Simple tab switching for auth forms
+    document.getElementById('login-tab').addEventListener('click', function () {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('login-tab').classList.add('active');
+      document.getElementById('register-tab').classList.remove('active');
+    });
+
+    document.getElementById('register-tab').addEventListener('click', function () {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+      document.getElementById('login-tab').classList.remove('active');
+      document.getElementById('register-tab').classList.add('active');
+    });
+  </script>
 </body>
 
 </html>
