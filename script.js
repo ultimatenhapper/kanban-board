@@ -1,7 +1,6 @@
 // API URL
 // const API_URL = "http://localhost:5000/api";
-const API_URL =
-  "https://kanban-backend-gi4dp4ext-ultimatenhappers-projects.vercel.app";
+const API_URL = "https://kanban-backend-one-fawn.vercel.app/api";
 
 // Authentication buttons
 const loginForm = document.getElementById("login-form");
